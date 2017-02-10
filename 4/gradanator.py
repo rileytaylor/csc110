@@ -10,17 +10,13 @@ ATTENDANCE_MAX = 34
 
 
 def main():
-    midterm_one_score = 0
-    midterm_two_score = 0
-    final_score = 0
-    homework_score = 0
-
     intro()
-    midterm_one()
-    midterm_two()
-    final()
-    homework()
-    total()
+    midterm_1 = midterm_one()
+    midterm_2 = midterm_two()
+    final_score = final()
+    homework_score = homework()
+    total(midterm_1, midterm_2, final_score, homework_score)
+
 
 # --------------------------------------------------------------------
 # intro() simply provides the introductory text to let the user know
@@ -31,8 +27,9 @@ def intro():
     print("and reports your overall course grade.")
     print("")
 
+
 # --------------------------------------------------------------------
-# get_total_points() calculates the total score by adding the raw 
+# get_total_points() calculates the total score by adding the raw
 # input grade and the shift (if any) together.
 #
 # PARAMETERS: score -- an int. The raw score.
@@ -44,6 +41,7 @@ def get_total_points(score, shift):
         total = MAX_SCORE
     return total
 
+
 # --------------------------------------------------------------------
 # get_weighted_score() calculates the weighted score.
 #
@@ -52,12 +50,13 @@ def get_total_points(score, shift):
 #             weight -- an int. The weight given.
 # --------------------------------------------------------------------
 def get_weighted_score(score, total, weight):
-    weighted_score = round(int(score) / total * int(weight), 1) 
+    weighted_score = round(int(score) / total * int(weight), 1)
     return weighted_score
 
+
 # --------------------------------------------------------------------
-# test_input() gets user input and calculates the weighted score of abs
-# test.
+# test_input() gets user input and calculates the weighted score of
+# the test.
 #
 # PARAMETERS: name -- a string. The test name.
 # --------------------------------------------------------------------
@@ -77,6 +76,7 @@ def test_input(name):
     print()
     return weighted_score
 
+
 # --------------------------------------------------------------------
 # get_grade_letter() matches the final grade with a grade letter.
 #
@@ -93,69 +93,38 @@ def get_grade_letter(grade):
         return "D"
     else:
         return "F"
+
+
 # --------------------------------------------------------------------
-# midterm_one() prompts the user for input and then calculates the 
+# midterm_one() prompts the user for input and then calculates the
 # score for midterm one, inluding the weight and shift (if any)
 # --------------------------------------------------------------------
 def midterm_one():
-    print(name + ":")
-    weight = input("Weight (0-100)? ")
-    score = input("Score earned? ")
-    shifted = input("Were scores shifted (1=yes, 2=no)? ")
-    if (shifted == "1"):
-        shift_amount = input("Shift amount? ")
-    else:
-        shift_amount = 0
-    total_points = get_total_points(score, shift_amount)
-    print("Total points = " + str(total_points) + " / 100")
-    weighted_score = get_weighted_score(total_points, 100, weight)
-    print("Weighted score = " + str(weighted_score) + " / " + str(weight))
-    print()
-    midterm_one_score = weighted_score
+    weighted_score = test_input("Midterm 1")
+    return weighted_score
+
 
 # --------------------------------------------------------------------
-# midterm_two() prompts the user for input and then calculates the 
+# midterm_two() prompts the user for input and then calculates the
 # score for midterm one, inluding the weight and shift (if any)
 # --------------------------------------------------------------------
 def midterm_two():
-    print("Midterm 2:")
-    weight = input("Weight (0-100)? ")
-    score = input("Score earned? ")
-    shifted = input("Were scores shifted (1=yes, 2=no)? ")
-    if (shifted == "1"):
-        shift_amount = input("Shift amount? ")
-    else:
-        shift_amount = 0
-    total_points = get_total_points(score, shift_amount)
-    print("Total points = " + str(total_points) + " / 100")
-    weighted_score = get_weighted_score(total_points, 100, weight)
-    print("Weighted score = " + str(weighted_score) + " / " + str(weight))
-    print()
-    midterm_two_score = weighted_score
+    weighted_score = test_input("Midterm 2")
+    return weighted_score
+
 
 # --------------------------------------------------------------------
-# final() prompts the user for input and then calculates the 
+# final() prompts the user for input and then calculates the
 # score for the final, inluding the weight and shift (if any)
 # --------------------------------------------------------------------
 def final():
-    print("Final:")
-    weight = input("Weight (0-100)? ")
-    score = input("Score earned? ")
-    shifted = input("Were scores shifted (1=yes, 2=no)? ")
-    if (shifted == "1"):
-        shift_amount = input("Shift amount? ")
-    else:
-        shift_amount = 0
-    total_points = get_total_points(score, shift_amount)
-    print("Total points = " + str(total_points) + " / 100")
-    weighted_score = get_weighted_score(total_points, 100, weight)
-    print("Weighted score = " + str(weighted_score) + " / " + str(weight))
-    print()
-    final_score = weighted_score
+    weighted_score = test_input("Final")
+    return weighted_score
+
 
 # --------------------------------------------------------------------
-# homework() prompts the user for input and then calculates the 
-# score for all homework and section attendance, inluding the weight 
+# homework() prompts the user for input and then calculates the
+# score for all homework and section attendance, inluding the weight
 # and shift (if any)
 # --------------------------------------------------------------------
 def homework():
@@ -165,7 +134,7 @@ def homework():
 
     print("Homework:")
     weight = input("Weight (0-100)? ")
-    count = input("Number of Assignments? ")
+    count = input("Number of assignments? ")
     for assignment in range(1, int(count) + 1):
         loop += 1
         score_total += int(input("Assignment " + str(loop) + " score? "))
@@ -180,19 +149,17 @@ def homework():
     print("Total points = " + str(score_total) + " / " + str(score_max))
     print("Weighted score = " + str(weighted_score) + " / " + str(weight))
     print()
-    homework_score = weighted_score
+    return weighted_score
+
 
 # --------------------------------------------------------------------
 # total() calculates the overall score and letter grade.
 # --------------------------------------------------------------------
-def total():
-    grade = midterm_one_score + midterm_two_score + final_score + homework_score
+def total(midterm_1, midterm_2, final, homework):
+    grade = round(midterm_1 + midterm_2 + final + homework, 1)
     print("Overall percentage = " + str(grade))
     letter = get_grade_letter(grade)
     print("Your grade will be at least: " + str(letter))
     print("Don't Panic.")
 
 main()
-
-# TODO: Why isn't the grade total working, and comments and shit!
-# TODO: Abscract the inputs out into an input("name") that returns the weighted score.
