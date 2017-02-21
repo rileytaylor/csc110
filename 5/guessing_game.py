@@ -1,8 +1,9 @@
+# Author: Riley Taylor
+# Course: CSC 110, Section 2J, Spring 2017
+# Program: Guessing Game
 #
-# Header
-#
-
-# TODO: Headers, haiku, fix pylint on this fucking mac
+# This plays a guessing game with the user. The game can be played
+# many times and will report overall statistics at the end.
 
 from random import *
 
@@ -18,7 +19,7 @@ def main():
 
     intro()
 
-    # Prompt to play again here
+    # Play the game
     while (again == True):
         games += 1
         guesses = game()
@@ -26,14 +27,23 @@ def main():
         if (guesses < best_guesses or best_game == 0):
             best_guesses = guesses
             best_game = games
+        print()
         again = play_again()
 
     total(games, total_guesses, best_game)
 
-def intro():
-    print("Insert Haiku Here.")
-    print()
 
+# --------------------------------------------------------------------
+# intro() simply provides the introductory haiku.
+# --------------------------------------------------------------------
+def intro():
+    print("\nFlying piano \nWobbles hastily, pleasant \nObscene lame monks fret.")
+
+
+# --------------------------------------------------------------------
+# play_again() asks if the user wants to play another game.
+# RETURN:     a bool
+# --------------------------------------------------------------------
 def play_again():
     prompt = input("Do you want to play again? ")
     p = prompt.lower()
@@ -41,10 +51,16 @@ def play_again():
         return True
     else:
         return False
-    print()
 
+
+# --------------------------------------------------------------------
+# game() is the guessing game.
+# RETURN:     an int representing the number of guesses made
+# --------------------------------------------------------------------
 def game():
-    print("I'm thinking of a number between 1 and " + str(MAX_NUMBER) + "...")
+    print("\nI'm thinking of a number between 1 and " 
+          + str(MAX_NUMBER) 
+          + "...")
     number = randint(1, MAX_NUMBER)
     guess = 0
     count = 0
@@ -61,12 +77,22 @@ def game():
         print("You got it right in 1 guess!")
     return count
 
+
+# --------------------------------------------------------------------
+# total() takes in data and returns overall statistics from games
+# played by the user.
+# PARAMETERS: games -- an int. The number of games played.
+#             guesses -- an int. The number of guesses made.
+#             best -- an int. The id of the game played with the
+#                     fewest guesses
+# --------------------------------------------------------------------
 def total(games, guesses, best):
     guesses_per_game = guesses / games
-    print("Overall results:")
+    print("\nOverall results:")
     print("Total games   = " + str(games))
     print("Total guesses = " + str(guesses))
     print("Guesses/game  = " + str(guesses_per_game))
     print("Best game     = " + str(best))
+    print()
 
 main()
