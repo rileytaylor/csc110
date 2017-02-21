@@ -2,30 +2,37 @@
 # Header
 #
 
+# TODO: Headers, haiku, fix pylint on this fucking mac
+
 from random import *
 
 MAX_NUMBER = 100
 
 
 def main():
+    again = True
     games = 0
-    total_count = 0
+    total_guesses = 0
+    best_guesses = 0
     best_game = 0
 
     intro()
 
     # Prompt to play again here
-    if (games > 0):
+    while (again == True):
+        games += 1
+        guesses = game()
+        total_guesses += guesses
+        if (guesses < best_guesses or best_game == 0):
+            best_guesses = guesses
+            best_game = games
         again = play_again()
-        while (again == True):
-            game()
-    else:
-        game()
 
-    total()
+    total(games, total_guesses, best_game)
 
 def intro():
     print("Insert Haiku Here.")
+    print()
 
 def play_again():
     prompt = input("Do you want to play again? ")
@@ -34,32 +41,32 @@ def play_again():
         return True
     else:
         return False
+    print()
 
 def game():
     print("I'm thinking of a number between 1 and " + str(MAX_NUMBER) + "...")
     number = randint(1, MAX_NUMBER)
     guess = 0
     count = 0
-    while (guess != number):
+    while (int(guess) != number):
         guess = input("Your Guess? ")
-        if (guess < number):
+        if (int(guess) < number):
             print("It's higher.")
-        elif (guess > number):
+        elif (int(guess) > number):
             print("It's lower.")
         count += 1
     if (count > 1):
-        print("You got it right in " + str(guess) + " guesses!")
+        print("You got it right in " + str(count) + " guesses!")
     else:
         print("You got it right in 1 guess!")
-    games += 1
-    total_count += count
-    if (count < total_count):
-        best_game = total_count
+    return count
 
-def total():
-    guesses_per_game = total_count / games
+def total(games, guesses, best):
+    guesses_per_game = guesses / games
     print("Overall results:")
     print("Total games   = " + str(games))
-    print("Total guesses = " + str(total_count))
+    print("Total guesses = " + str(guesses))
     print("Guesses/game  = " + str(guesses_per_game))
-    print("Best game     = " + str(best_game))
+    print("Best game     = " + str(best))
+
+main()
