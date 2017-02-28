@@ -13,7 +13,10 @@ def main():
           "since 1890.\n")
     name = input("Name: ")
     gender = input("Gender: ")
-    find_name("names.txt", name, gender)
+    match = find_name("names.txt", name, gender)
+    if (match == ""):
+        match = '"' + name + '" not found.'
+    print(match)
 
 
 def find_name(fname, name, gender):
@@ -24,12 +27,18 @@ def find_name(fname, name, gender):
     for n in names:
         if (n.lower().startswith(name.lower() + " " + g.lower())):
             match = n
+    if (match != ""):
+        m = open("meanings.txt")
+        meanings = m.readlines()
+        for m in meanings:
+            if (m.startswith(name.upper())):
+                match += m
     return match
-    
 
 
+# def draw_basics(p, meaning_line):
 
-def draw_basics(p, meaning_line):
 
+# def draw_histogram(p, name_line):
 
-def draw_histogram(p, name_line):
+main()
