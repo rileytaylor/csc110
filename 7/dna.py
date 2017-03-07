@@ -41,6 +41,7 @@ def read_data(data):
 
 
 def count_nucleotides(sequence):
+    # Need to use x % 4 to drop count in the right bucket!
     result = [0, 3, 50, 3]
     print("Nuc. Counts: " + "[",
           str(result[0]) + ",",
@@ -50,7 +51,9 @@ def count_nucleotides(sequence):
     return result
 
 
-def count_mass(nucelotide_count):
+def count_mass(nucelotide_count, sequence):
+    # need to multiply each index by it's constant, then write over it
+    # also need to total up all those, including the total JUNK for a total mass retain
     result = [100.111, 100.111, 100.111, 100.111]
     print("Total Mass%: " + "[",
           str(result[0]) + ",",
@@ -61,6 +64,8 @@ def count_mass(nucelotide_count):
 
 
 def find_codons(sequence):
+    # Set a range step of the NUCLEOTIDES_PER_CODON constant and print the resultant
+    # string, then append it to a list
     result = ['ATC', 'ATC', 'ATC', 'ATC', 'ATC']
     print("Codons List: " + "[",
           str(result[0]) + ",",
@@ -72,6 +77,7 @@ def find_codons(sequence):
 
 
 def is_protein(codons):
+    # need to loop through the list and count the unique ones (searching lecture?)
     result = "YES"
     print("Is Protein?: " + result)
 
