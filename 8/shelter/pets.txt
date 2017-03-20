@@ -1,0 +1,9 @@
+dog alyson 5.5
+cat chester 1.5
+cat felice 16.0
+dog jesse 14.0
+bird joe 3.0
+cat merlin 5.0
+cat percy 12.0
+cat puppet 18.0
+cat sylvester 4.5
