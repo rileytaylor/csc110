@@ -1,4 +1,6 @@
-('cat', 'felice', '16')
-('cat', 'puppet', '18')
-('dog', 'alyson', '5.5')
-('dog', 'jesse', '14')
+cat chester 1.5
+cat merlin 5
+cat percy 12
+cat puppet 18
+dog alyson 5.5
+dog jesse 14

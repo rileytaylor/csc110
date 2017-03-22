@@ -1,2 +1,0 @@
-('cat', 'merlin', '5')
-('cat', 'percy', '12')
