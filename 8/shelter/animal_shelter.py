@@ -1,5 +1,6 @@
-# hours Spent: 2
+# hours Spent: 5
 
+FILES = ("pets.txt", "transferred.txt", "adopted.txt")
 
 def main():
     print("Welcome to animal shelter management software version 1.0!")
@@ -7,9 +8,8 @@ def main():
     animals = []
     transfers = []
     adoptions = []
-    files = ("pets.txt", "transferred.txt", "adopted.txt")
 
-    animals, transfers, adoptions = initiate(files)
+    animals, transfers, adoptions = initiate(FILES)
 
     while (done == False):
         print("Type one of the following options:")
@@ -23,24 +23,32 @@ def main():
         option = input("option? ")
 
         if (option == "adopt"):
-            animals, adoptions = adopt(animals, adoptions, files[0])
+            animals, adoptions = adopt(animals, adoptions, FILES[0])
+            print()
         elif (option == "intake"):
             intake_file = input("file? ")
-            animals = intake(intake_file, filename)
+            animals = intake(animals, intake_file)
+            print()
         elif (option == "list"):
             list_animals(animals)
+            print()
         elif (option == "quit"):
             done = quit_asm(animals, transfers, adoptions)
         elif (option == "save"):
-            save(animals, transfers, adoptions, files)
+            save(animals, transfers, adoptions, FILES)
+            print()
         elif (option == "transfer"):
             transfer_file = input("file name? ")
-            animals, transfers = transfer(animals, transfers, transfer_file)
+            animals, transfers = transfer(animals,
+                                          transfers,
+                                          transfer_file)
+            print()
 
-def initiate(files):
-    # Read from all the files and return their contents
-    for f in range(0, len(files)):
-        a = read_animals(files[f])
+# DONE
+def initiate():
+    # Read from all the FILES and return their contents
+    for f in range(0, len(FILES)):
+        a = read_animals(FILES[f])
         if (f == 0):
             animals = a
         elif (f == 1):
@@ -49,16 +57,28 @@ def initiate(files):
             adoptions = a
     return animals, transfers, adoptions
 
-def adopt(animals, adoptions, filename):
-    animal_type = input("animal type? ")
-    name = input("name? ")
-    # If type and name is in the list, remove it and add it to adopted
 
+# DONE
+def adopt(animals, adoptions, filename):
+    animal_type = input("animal type? ").lower()
+    adoptee = input("name? ").lower()
+    # If type and name is in the list, remove it and add it to adopted
+    for a in animals:
+        if (a[0].lower() == animal_type) and (a[1].lower() == adoptee):
+            adoptee = a
+            animals.remove(a)
+            adoptions.append(adoptee)
+    animals.sort()
+    adoptions.sort()
+    return animals, adoptions
+
+
+# DONE
 def intake(animals, filename):
     new = read_animals(filename)
-    # TODO: Sort alphabetically on add
     for n in new:
         animals.append(n)
+    animals.sort()
     return animals
 
 
@@ -79,7 +99,6 @@ def list_animals(animals):
             animal = animals[a]
             if animal[0].lower() == 'dog':
                 print(animals[a])
-    print()
                 
 
 # DONE
@@ -90,24 +109,32 @@ def quit_asm(animals, transfers, adoptions):
     print(str(len(transfers)) + " transferred")
     return True
 
-def save(animals, transfers, adoptions, files):
+
+# DONE
+def save(animals, transfers, adoptions):
     # write current shelter list, transferred list, and adopted list 
     # in original format, 
-    for f in range(0, len(files)):
-        write_file = open(files[f], 'w')
-        if (f == 0):
-             write_file.write(animals)
-        elif (f == 1):
-             write_file.write(transfers)
-        elif (f == 2):
-             write_file.write(adoptions)
+    write_file(animals, FILES[0])
+    write_file(transfers, FILES[1])
+    write_file(adoptions, FILES[2])
 
+
+# DONE
 def transfer(animals, transfers, filename):
     trans = read_animals(filename)
     # add to the transfer list, sorted alphabetically
     # remove from the animals list
+    for t in trans:
+        for a in animals:
+            if a == t:
+                animals.remove(a)
+                transfers.append(t)
+    animals.sort()
+    transfers.sort()
     return animals, transfers
 
+
+# DONE
 def read_animals(filename):
     animals = []
     f = open(filename)
@@ -116,6 +143,14 @@ def read_animals(filename):
         parts = line.lower().split()
         animal = (parts[0], parts[1], parts[2])
         animals.append(animal)
+    animals.sort()
     return animals
+
+# DONE
+def write_file(data, filename):
+    w = open(filename, 'w')
+    for d in data:
+        w.write(str(d) + "\n")
+    w.close()
 
 main()
