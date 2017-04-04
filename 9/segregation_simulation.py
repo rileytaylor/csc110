@@ -50,7 +50,19 @@ def make_agents_happy(db):
     number_unhappy = 0
     happy = False
     # For each cell, get the type of x, y and corners
-    # calculate how many are of the same type
+    for row in grid:
+        for cell in range(0, len(row)):
+            agent = row[cell]
+            neighbors = get_neighbors(db, row, cell)
+            # calculate how many are of the same type
+            num_same = 0
+            for n in neighbors:
+                if neighbors[n] == agent:
+                    num_same + 1
+            if not (num_same * 8 / 100) > HAPPINESS_PERCENTAGE:
+                number_unhappy + 1
+                move_agent(db, row, cell)
+
     # if less than HAPPINESS_PERCENTAGE, move it to a random spot.
     # calculate the random spot by randomly picking a cell on the Grid
     # and traversing until the next 0
@@ -59,6 +71,21 @@ def make_agents_happy(db):
     if (number_unhappy == 0):
         happy = True
     return happy
+
+
+# TODO: REFACTOR THE SHIT OUT OF THIS
+def get_neighbors(db, row, cell):
+    # agent = db[row][cell]
+    ne = db[row - 1] [cell - 1]
+    n = db [row - 1] [cell]
+    nw = db[row - 1] [cell + 1]
+    w = db [row]     [cell + 1]
+    sw = db[row + 1] [cell + 1]
+    s = db [row + 1] [cell]
+    se = db[row + 1] [cell - 1]
+    e = db [row]     [cell - 1]
+    neighbors = ne, n, nw, w, sw, s, se, e
+    return neighbors
 
 
 # --------------------------------------------------------------------
