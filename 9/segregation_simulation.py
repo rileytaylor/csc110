@@ -23,10 +23,10 @@ def main():
 
     panel = DrawingPanel(SQUARE_AXIS, SQUARE_AXIS, background="gray")
 
-    while (happy == False):
-        agentsdb = create_agents()
-        draw_grid(panel, agentsdb)
-        happy = make_agents_happy(agentsdb)
+    # while (happy == False):
+    agentsdb = create_agents()
+    draw_grid(panel, agentsdb)
+    happy = make_agents_happy(agentsdb)
 
 
 def create_agents():
@@ -47,45 +47,62 @@ def create_agents():
 
 
 def make_agents_happy(db):
-    number_unhappy = 0
     happy = False
+    to_move = []
     # For each cell, get the type of x, y and corners
-    for row in grid:
-        for cell in range(0, len(row)):
-            agent = row[cell]
-            neighbors = get_neighbors(db, row, cell)
-            # calculate how many are of the same type
-            num_same = 0
-            for n in neighbors:
-                if neighbors[n] == agent:
-                    num_same + 1
-            if not (num_same * 8 / 100) > HAPPINESS_PERCENTAGE:
-                number_unhappy + 1
-                move_agent(db, row, cell)
-
-    # if less than HAPPINESS_PERCENTAGE, move it to a random spot.
+    for row in range(0, len(db)):
+        for cell in range(0, len(db[row])):
+            agent = db[row][cell]
+            # Find out how many of it's neighbors are the same, skip if empty
+            if (agent != 0):
+                neighbors = get_neighbors(db, row, cell)
+                num_same = 0
+                for n in neighbors:
+                    if n == agent:
+                        num_same += 1
+                if not((num_same * 100 / 8) > HAPPINESS_PERCENTAGE):
+                    to_move.append((row, cell))
+    # if unhappy, move it
     # calculate the random spot by randomly picking a cell on the Grid
     # and traversing until the next 0
     # then replace it with this guy and make the old spot a 0
-    # If an agent is unhappy, bump up the counter
-    if (number_unhappy == 0):
+    for agent in to_move:
+        move_agent(db, agent)
+
+    if (len(to_move) == 0):
         happy = True
     return happy
 
 
-# TODO: REFACTOR THE SHIT OUT OF THIS
 def get_neighbors(db, row, cell):
-    # agent = db[row][cell]
-    ne = db[row - 1] [cell - 1]
-    n = db [row - 1] [cell]
-    nw = db[row - 1] [cell + 1]
-    w = db [row]     [cell + 1]
-    sw = db[row + 1] [cell + 1]
-    s = db [row + 1] [cell]
-    se = db[row + 1] [cell - 1]
-    e = db [row]     [cell - 1]
-    neighbors = ne, n, nw, w, sw, s, se, e
-    return neighbors
+    ne = in_range(db, row - 1, cell - 1)
+    n = in_range(db, row - 1, cell)
+    nw = in_range(db, row - 1, cell + 1)
+    w = in_range(db, row, cell + 1)
+    sw = in_range(db, row + 1, cell + 1)
+    s = in_range(db, row + 1, cell)
+    se = in_range(db, row + 1, cell - 1)
+    e = in_range(db, row, cell - 1)
+    return ne, n, nw, w, sw, s, se, e
+
+
+def in_range(db, row, cell):
+    if not((row > GRID_SIZE - 1) or
+           (cell > GRID_SIZE - 1) or
+           (row < 0) or
+           (cell < 0)):
+        return db[row][cell]
+    return 0
+
+
+def move_agent(db, agent):
+    # Get the value of the agent to move
+    value = db[agent[0]][agent[1]]
+    # Replace it's location with a 0 since it's leaving
+    db[agent[0]][agent[1]] = 0
+    #Traverse the grid for the first open spot after a random coordinate
+    starting_coord = randint(0, 19), randint(0, 19)
+    
 
 
 # --------------------------------------------------------------------
