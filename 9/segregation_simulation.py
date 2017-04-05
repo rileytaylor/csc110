@@ -55,7 +55,8 @@ def make_agents_happy(db):
     for row in range(0, len(db)):
         for cell in range(0, len(db[row])):
             agent = db[row][cell]
-            # Find out how many of it's neighbors are the same, skip if empty
+            # Find out how many of it's neighbors are the same, skip if 
+            # empty
             if (agent != 0):
                 neighbors = get_neighbors(db, row, cell)
                 num_same = 0
@@ -97,14 +98,15 @@ def in_range(db, row, cell):
 def move_agent(db, agent):
     # Get the value of the agent to move
     value = db[agent[0]][agent[1]]
-    # Replace it's location with a 0 since it's leaving
-    db[agent[0]][agent[1]] = 0
-    #Traverse the grid for the first open spot after a random coordinate
-    # starting_coord = (randint(0, 19), randint(0, 19))
-    for row in db:
-        for cell in range(0, len(row)):
-            if row[cell] == 0:
-                row[cell] = value
+    
+    # Start at a random spot in the grid and move it to the next 
+    # open spot
+    for row in range(randint(0, 19), len(db)):
+        for cell in range(randint(0, 19), len(db[row])):
+            if db[row][cell] == 0:
+                # Replace its old location with a 0 since it's leaving
+                db[agent[0]][agent[1]] = 0
+                db[row][cell] = value
                 return
 
 
