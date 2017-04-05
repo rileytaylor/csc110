@@ -2,10 +2,11 @@
 # Course: CSC 110, Section 2J, Spring 2017
 # Program: Segregation Simulation
 #
-# 
+# Simulates segregation by using Thomas Schelling's agent model
 
 from drawingpanel import *
 from random import *
+from time import *
 
 
 GRID_SIZE = 20
@@ -19,14 +20,16 @@ SPEED = 100
 HAPPINESS_PERCENTAGE = 30
 
 def main():
-    happy = False
-
     panel = DrawingPanel(SQUARE_AXIS, SQUARE_AXIS, background="gray")
 
-    # while (happy == False):
     agentsdb = create_agents()
-    draw_grid(panel, agentsdb)
-    happy = make_agents_happy(agentsdb)
+
+    happy = False
+    while (happy == False):
+        panel.clear()
+        draw_grid(panel, agentsdb)
+        panel.sleep(100)
+        happy = make_agents_happy(agentsdb)
 
 
 def create_agents():
@@ -47,7 +50,6 @@ def create_agents():
 
 
 def make_agents_happy(db):
-    happy = False
     to_move = []
     # For each cell, get the type of x, y and corners
     for row in range(0, len(db)):
@@ -63,15 +65,12 @@ def make_agents_happy(db):
                 if not((num_same * 100 / 8) > HAPPINESS_PERCENTAGE):
                     to_move.append((row, cell))
     # if unhappy, move it
-    # calculate the random spot by randomly picking a cell on the Grid
-    # and traversing until the next 0
-    # then replace it with this guy and make the old spot a 0
-    for agent in to_move:
-        move_agent(db, agent)
-
     if (len(to_move) == 0):
-        happy = True
-    return happy
+        return True
+    else:
+        for agent in to_move:
+            move_agent(db, agent)
+        return False
 
 
 def get_neighbors(db, row, cell):
@@ -101,8 +100,14 @@ def move_agent(db, agent):
     # Replace it's location with a 0 since it's leaving
     db[agent[0]][agent[1]] = 0
     #Traverse the grid for the first open spot after a random coordinate
-    starting_coord = randint(0, 19), randint(0, 19)
-    
+    # starting_coord = (randint(0, 19), randint(0, 19))
+    for row in db:
+        for cell in range(0, len(row)):
+            if row[cell] == 0:
+                row[cell] = value
+                return
+
+
 
 
 # --------------------------------------------------------------------
