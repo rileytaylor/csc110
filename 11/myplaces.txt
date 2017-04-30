@@ -1,19 +1,59 @@
 Starbucks
+715 E Wetmore Rd
+coffee, tea, food
+32.286755
+-110.960587
 
-Culver's
+Cartel Coffee Lab
+2516 N Campbell Ave
+coffee, tea, food
+32.252552
+-110.943729
 
 Tucson Games and Gadgets
+4500 N Oracle Rd #253
+games, rpg
+32.288943
+-110.975866
 
 Time Market
+444 E University Blvd
+pizza, beer, organic
+32.231421
+-110.964237
 
 Bing's Boba
+2510 N Campbell Ave
+tea, boba, food, games
+32.252450
+-110.943738
 
-D&D Pinball
+Boca Tacos y Tequila
+828 E Speedway Blvd
+tacos, tequila, food
+32.235669
+-110.958687
 
 Sprouts Farmers Market
+4282 N 1st Ave
+groceries
+32.285282
+-110.959417
 
 Casa Video
+2905 E Speedway Blvd
+video rental, movies, beer
+32.236479
+-110.929333
 
 Bentley's House of Coffee and Tea
+1730 E Speedway Blvd
+coffee, tea, food
+32.235684
+-110.945941
 
 Cafe Luce
+4205 N Campbell Ave
+coffee, tea, food
+32.283535
+-110.944316

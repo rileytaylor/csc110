@@ -1,5 +1,12 @@
+# Author: Riley Taylor
+# Course: CSC 110, Section 2J, Spring 2017
+# Program: Book Recommender
+#
+# Interacts with a review database and provides recommended books based
+# on similarities between users
+
 # HW9 Hours Spent: 4
-# HW10 Hours Spent: 4
+# HW10 Hours Spent: 7
 
 from review import *
 
@@ -31,6 +38,12 @@ def main():
             print("please enter a valid response\n")
 
 
+# --------------------------------------------------------------------
+# get_recommendations fetches data from the provided file and adds it
+#                     to the reviews database.
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# --------------------------------------------------------------------
 def get_recommendations(db):
     recs = open(FILE).readlines()
     for entry in range(0, len(recs), 4):
@@ -41,14 +54,24 @@ def get_recommendations(db):
         add_recomendation(db, user, review)
 
 
+# --------------------------------------------------------------------
+# add_recomendation() adds a review to the database.
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# --------------------------------------------------------------------
 def add_recomendation(db, user, review):
     if user not in db:
         db[user] = set()
     db[user].add(review)
 
 
+# --------------------------------------------------------------------
+# get_best() finds the highest rated book in the database
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# RETURNS: a tuple of the best rated title and it's rating
+# --------------------------------------------------------------------
 def get_best(db):
-    # return "Ender's Game", "5.0"
     ratings = {}
     for user in db:
         for rec in db[user]:
@@ -67,20 +90,67 @@ def get_best(db):
     return highest_title, highest_avg_rating
 
 
+# --------------------------------------------------------------------
+# get_books_for_user() returns the bookset for a particular user
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+#             user -- a string. The user to find in the database
+# RETURNS: a set of reviews
+# --------------------------------------------------------------------
+def get_books_for_user(db, user):
+    return db[user]
+
+
+# --------------------------------------------------------------------
+# recommend() finds the user with the most similar reviews and
+#             recommends their books for the inputed user
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# --------------------------------------------------------------------
 def recommend(db):
     user_recommend_for = input("user? ")
+    similarities = {}
+    # For each review the recommendee has, check reviews of other users
     if user_recommend_for in db:
-        recommendee_books = db[user_recommend_for]
+        for review in db[user_recommend_for]:
+            for user in db:
+                for other_review in db[user]:
+                    if review.get_title() == other_review.get_title():
+                        # Add matches to the similarities list
+                        dist = review.get_rating() * other_review.get_rating()
+                        if user not in similarities:
+                            similarities[user] = 0
+                        similarities[user] += dist
     else:
-        print("Please try another user")
+        print("User not in database")
+    similar_user = ''
+    score = 0
+    # Find the most similar user
+    for user in similarities:
+        if (similarities[user] > score) and (user != user_recommend_for):
+            similar_user = user
+            score = similarities[user]
+    reviews = get_books_for_user(db, similar_user)
+    for r in reviews:
+        print(r)
 
 
+# --------------------------------------------------------------------
+# best() displays the highest rated book.
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# --------------------------------------------------------------------
 def best(db):
-    best, avg = get_best(db)
-    print("The highest rated book is:\n" + best,
+    book, avg = get_best(db)
+    print("The highest rated book is:\n" + book,
           "\nwith an overall score of " + str(avg))
 
 
+# --------------------------------------------------------------------
+# add() adds a review to the database
+#
+# PARAMETERS: db -- a dictionary. The reviews database
+# --------------------------------------------------------------------
 def add(db):
     user = input("user? ")
     title = input("title? ")

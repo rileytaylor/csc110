@@ -18,7 +18,7 @@ class Vulture(Bird):
 
     def fight(self, opponent):
         self.__hungry = True
-        return super(Vulture, self, opponent).fight()
+        return super(Vulture, self).fight(opponent)
 
     def get_color(self):
         return "black"
