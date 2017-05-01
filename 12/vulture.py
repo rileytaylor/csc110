@@ -1,4 +1,5 @@
 # This class represents a Vulture type of Critter
+# This is a bird that is only hungry after fighting.
 # it is represented by a black arrow.
 
 from bird import *

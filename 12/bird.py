@@ -1,4 +1,5 @@
 # This class represents a Bird type of Critter
+# It moves in a square, and really hates ants.
 # it is represented by a blue arrow.
 
 from critter import *

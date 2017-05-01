@@ -1,17 +1,18 @@
 # A Wildcat. Yay.
 # It's represented by a cyan &.
+# I wanted to build in a learning mechanism for dealing with the other
+# wildcat, but the time required without using 3rd-party libraries turned
+# out to be not worth it. Oh well, it still cleans house of the other types.
 
 from critter import *
-from random import *
+from random import randint
 
 directions = DIRECTION_EAST, DIRECTION_WEST, DIRECTION_SOUTH, DIRECTION_NORTH
+attacks = ATTACK_POUNCE, ATTACK_SCRATCH, ATTACK_ROAR
 
 class Wildcat(Critter):
     def __init__(self):
         super(Wildcat, self).__init__()
-        self.__other_cat = ''
-        self.__last_attack = None
-        self.__other_cats_bane = []
 
     def eat(self):
         neighbor = False
@@ -23,7 +24,7 @@ class Wildcat(Critter):
         return True
 
     def fight(self, opponent):
-        #Switch?
+        self.cat_was_last_opponent = False
         if opponent == "%":
             return ATTACK_ROAR
         elif opponent == "S":
@@ -34,18 +35,12 @@ class Wildcat(Critter):
             return ATTACK_ROAR
         elif int(opponent) == 0:
             return ATTACK_SCRATCH
-        # Best chance against the Aardvark
         elif opponent == "a" or "A":
+            # Best chance against the Aardvark
             return ATTACK_POUNCE
-        # A little something special for the other cat. Meow.
-        elif opponent == self.__other_cat:
-            #return self.__other_cats_bane
-            #return the most common item
-        # There's a new kid in town....
         else:
-            self.__other_cat = opponent
-            self.__last_attack = ATTACK_SCRATCH
-            return ATTACK_SCRATCH
+            r = randint(0,2)
+            return attacks[r]
 
     def get_color(self):
         return "cyan"
@@ -62,16 +57,3 @@ class Wildcat(Critter):
 
     def __str__(self):
         return "&"
-
-    def win(self):
-        print("¯\_(ツ)_/¯")
-        if self.__other_cat != '':
-            self.__other_cats_bane.append(self.__last_attack)
-        print("Take that " + self.__other_cat)
-
-    def mate(self):
-        print("Oh, my!")
-
-    def lose(self):
-        print("Suprise! I'm a Rakshasa, and I'm comin' back for you!")
-        # Oh but i wish... but still, I'm gonna tell my buddies about you

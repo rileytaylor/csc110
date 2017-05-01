@@ -1,5 +1,6 @@
 # This class represents a Stone type of Critter
-# It stays still, doesn't eat and roars for an attack
+# It changes direction after 5 moves, and only eats X amount
+# of times during its life.
 # it is represented by a gray S
 
 from critter import *

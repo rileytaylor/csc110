@@ -1,4 +1,5 @@
 # This class represents a Ant type of Critter
+# Either goes south or north diagonally, always eats.
 # it is represented by a red %
 
 # HW 12 Hours spent: 5

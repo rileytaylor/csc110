@@ -28,7 +28,7 @@ class Critter():
         return "grey"
 
     def get_move(self):
-        print("here")
+        # print("here")
         return DIRECTION_CENTER
 
     def __str__(self):
@@ -120,7 +120,7 @@ class Critter():
         self.neighbors[direction] = value
 
     def get_neighbor(self, direction):
-        print(self.neighbors)
+        # print(self.neighbors)
         return self.neighbors[direction]
 
     def increment_food(self):
