@@ -1,6 +1,5 @@
-# This class represents a Stone type of Critter
-# It stays still, doesn't eat and roars for an attack
-# it is represented by a gray S
+# This class represents a Vulture type of Critter
+# it is represented by a black arrow.
 
 from bird import *
 

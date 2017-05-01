@@ -6,7 +6,7 @@
 # Converting CSc 110 "Critters" program from java to python.
 # Updated 4/25/17 by Allison Obourn 
 #
-# version 2.1
+# version 2.2
 
 WIDTH = 40
 HEIGHT = 40
@@ -205,8 +205,8 @@ class Model:
                 self.critterMap[self.x][self.y].setX(-1)
                 self.critterMap[self.x][self.y].setY(-1)
             elif not (str(self.critterMap[self.newX][self.newY]) == str(self.critterMap[self.x][self.y])):
-                self.a1 = self.critterMap[self.newX][self.newY].fight(self.critterMap[self.x][self.y]) 
-                self.a2 = self.critterMap[self.x][self.y].fight(self.critterMap[self.newX][self.newY])
+                self.a1 = self.critterMap[self.newX][self.newY].fight(str(self.critterMap[self.x][self.y])) 
+                self.a2 = self.critterMap[self.x][self.y].fight(str(self.critterMap[self.newX][self.newY]))
                 self.winner = self.fight(self.a1,self.a2)
 
                 if (self.a1 == ATTACK_FORFEIT or self.winner == 2):
@@ -276,10 +276,10 @@ class Model:
 
         if ((a1 == ATTACK_ROAR and a2 == ATTACK_SCRATCH) or (a1 == ATTACK_SCRATCH and a2 == ATTACK_POUNCE)
             or (a1 == ATTACK_POUNCE and a2 == ATTACK_ROAR)):
-            return 2
+            return 1
         elif ((a2 == ATTACK_ROAR and a1 == ATTACK_SCRATCH) or (a2 == ATTACK_SCRATCH and a1 == ATTACK_POUNCE)
               or (a2 == ATTACK_POUNCE and a1 == ATTACK_ROAR)):
-            return 1
+            return 2
    
     def findOpen(self):
         x = 0

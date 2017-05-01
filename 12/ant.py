@@ -1,6 +1,7 @@
-# This class represents a Stone type of Critter
-# It stays still, doesn't eat and roars for an attack
-# it is represented by a gray S
+# This class represents a Ant type of Critter
+# it is represented by a red %
+
+# HW 12 Hours spent: 5
 
 from critter import *
 

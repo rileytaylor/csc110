@@ -1,6 +1,5 @@
-# This class represents a Stone type of Critter
-# It stays still, doesn't eat and roars for an attack
-# it is represented by a gray S
+# This class represents a Bird type of Critter
+# it is represented by a blue arrow.
 
 from critter import *
 
@@ -9,7 +8,7 @@ class Bird(Critter):
     def __init__(self):
         super(Bird, self).__init__()
         self.__moves = 0
-        self.__last_move = ''
+        self.__last_move = 'N'
 
     def eat(self):
         return False
